@@ -7,6 +7,7 @@ export const s3uploader = multer({
     storage: multerS3({
         s3: s3,
         bucket: AWS_BUCKET_NAME,
+        acl: 'public-read',  
         key: function (req, file, cb) {
             console.log("file detail from multer",file);
             
