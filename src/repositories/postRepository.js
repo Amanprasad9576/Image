@@ -10,9 +10,9 @@ import post from "../schema/post.js";
      }
 }   
 
-export const findAllPosts = async () =>{ 
+export const findAllPosts = async (offset,limit) =>{ 
    try {
-    const posts = await post.find();
+    const posts = await post.find().sort({createdAt:-1}).skip(offset).limit(limit)
     return posts;
    } catch (error) {
     console.log(error);
@@ -34,5 +34,13 @@ export const findPostById =async (id)=>{
     } catch (error) {
        console.log(error); 
     }
+ }
+ export const countAllPosts = async ()=>{
+   try {
+      const count = await post.countDocuments();
+      return count;
+   } catch (error) {
+     console.log(error) 
+   }
  }
 
