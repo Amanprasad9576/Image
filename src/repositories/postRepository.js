@@ -1,6 +1,6 @@
 import post from "../schema/post.js";
 
- export const createPost = async (caption,image,user)=>{
+ export const createPostRepository = async (caption,image,user)=>{
    try {
       
       const newPost = await post.create({caption,image,user});

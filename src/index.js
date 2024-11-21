@@ -8,7 +8,6 @@ const PORT = 3000; // port number
 const app = express(); // create express app server instance
  
 
-
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
@@ -21,7 +20,6 @@ app.get('/ping', (req, res) => {
   
 app.post('/posts',s3uploader.single('image'),createPost);
  
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
