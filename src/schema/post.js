@@ -1,3 +1,4 @@
+import { timeStamp } from 'console';
 import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
@@ -14,7 +15,7 @@ const postSchema = new mongoose.Schema({
   type:mongoose.Schema.Types.ObjectId,
   ref:"User"
   }
-});
+},{ timestamps :true});
 
 const post = mongoose.model("Post",postSchema);
 export default post;

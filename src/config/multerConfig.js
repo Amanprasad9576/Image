@@ -9,9 +9,16 @@ export const s3uploader = multer({
         bucket: AWS_BUCKET_NAME,
          
         key: function (req, file, cb) {
-            console.log("file detail from multer",file);
-            console.log(req.body);
+            if(!file){
+                console.log(file);
+                return cb(new Error("file not found"));
+            }
+            // Check mimetype for jpeg and png files only 
+            if(file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
+            return cb(new Error("File type not supported"));
+            }
             
+            console.log(file, req.body);
             const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9); // to make sure the key is unique
             cb(null, file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1]);
         }

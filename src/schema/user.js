@@ -7,23 +7,23 @@ const userSchema = new mongoose.Schema({
    unique:true,
    minLength: 5,
    },
-   emailid:{
+   email:{
     type:String,
     require:true,
     unique:true,
     minLength:5,
-    Validate:{
-         validation : function(emailValue){
+    validate:{
+         validator : function(emailValue){
              return  /^[a-zA-Z0-9_.+]+(?<!^[0-9]*)@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(emailValue); 
           },
-           message:'Invalid '
+           message:'Invalid email format'
         },
     },
     password:{
       type:String,
        minLength:5,
     },
-},{timestamps:true});
+},{ timestamps: true});
 
 const user = mongoose.model("User",userSchema); // user collection
 export default user;

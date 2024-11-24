@@ -21,8 +21,8 @@ export const findAllPosts = async (offset,limit) =>{
 
 export const findPostById =async (id)=>{
     try {
-     const post = await post.findById(id);
-     return post  ;
+     const posts = await post.findById(id);
+     return posts  ;
     } catch (error) {
         console.log(error);
     }
@@ -43,4 +43,12 @@ export const findPostById =async (id)=>{
      console.log(error) 
    }
  }
+ export const updatePostById = async (id, updateObject) => {
+   try {
+       const posts = await post.findByIdAndUpdate(id, updateObject, { new : true });
+       return posts;
+   } catch(error) {
+       console.log(error);
+   }
+}
 

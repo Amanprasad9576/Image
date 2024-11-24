@@ -1,4 +1,4 @@
-import { countAllPosts, createPostRepository } from "../repositories/postRepository.js";
+import { countAllPosts, createPostRepository, deletePostById, updatePostById } from "../repositories/postRepository.js";
 import { findAllPosts } from "../repositories/postRepository.js";
 
 export const createPostService = async (createPostObejct) => {
@@ -20,6 +20,16 @@ export const getAllPostService = async (offset,limit) =>{
   }
 }
 
+export const deletePostService = async (id)=>{
+   // call the responsitory function
+    const response = await deletePostById(id);
+    return response;
+}
 
-
+export const updatePostService = async (id, updateObject) => {
+    // call the repository function
+    // hW: try top impl the logic to delete old image from aws in case of update of post image
+    const response = await updatePostById(id, updateObject);
+    return response;
+}
 

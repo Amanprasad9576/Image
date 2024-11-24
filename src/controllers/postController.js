@@ -1,12 +1,18 @@
-import { createPostService, getAllPostService } from "../services/postService.js";
+import { createPostService, deletePostService, getAllPostService, updatePostService } from "../services/postService.js";
 
-export async function createPost(req, res) {
+export async function createPost(req,res) {
     try {
         // Logging the request body and file location
         console.log("Request Body:", req.body);
         console.log("File Location:", req.file?.location);  // Use req.file to access the uploaded file
 
         // Call the service function to create the post
+        if(!req.file || !req.file.location){
+            return res.status(400).json({
+                success:false,
+                message:"Imgae is required"
+            })
+        }
         const post = await createPostService({
             caption: req.body.caption,
             image: req.file.location  // Get the image location from S3
@@ -49,5 +55,49 @@ export async function getAllposts(req,res){
         message:"Some Internal Problem"
        }) 
     }
-    
+}
+export async function deletePost(req,res){
+    try {
+        const postId = req.params.id;
+        const response = await deletePostService(postId);
+        if(!response){
+            return res.status(404).json({
+                success:false,
+                message:"Post not found",
+            })
+        }
+         return res.status(200).json({
+            success: true,
+            message:"Post deleted successfully",
+            data:response
+         })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message :"Internal server error"
+        })
+    }
+}
+export async function updatePost(req, res) {
+    try {
+        console.log("req file", req.file);
+        const updateObject = req.body;
+        if(req.file) {
+            updateObject.image = req.file.location;
+        }
+        const response = await updatePostService(req.params.id, updateObject);
+        return res.status(200).json({
+            success: true,
+            message: "Post updated successfully",
+            data:response
+        });
+    } 
+    catch(error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        });
+    }
 }
