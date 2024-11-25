@@ -28,3 +28,4 @@ export const createUser = async (user) => {
         throw error;
     }
 }
+
