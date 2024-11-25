@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import bcrypt from 'bcrypt';
 const userSchema = new mongoose.Schema({
    username:{
    type:String,
@@ -24,6 +24,18 @@ const userSchema = new mongoose.Schema({
        minLength:5,
     },
 },{ timestamps: true});
+
+userSchema.pre('save',function modifyPassword(next){
+   // incoming user object
+   const user = this ; //object with plain password 
+   const SALT = bcrypt.genSaltSync(10);
+  // hash password
+
+   const hashPassword = bcrypt.hashSync(user.password,SALT);
+  // replace the password
+   user.password = hashPassword;
+   next();
+});
 
 const user = mongoose.model("User",userSchema); // user collection
 export default user;
