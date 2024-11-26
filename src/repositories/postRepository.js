@@ -1,18 +1,23 @@
 import post from "../schema/post.js";
 
- export const createPostRepository = async (caption,image,user)=>{
+export const createPost = async (caption, image, user) => {
    try {
-      
-      const newPost = await post.create({caption,image,user});
-      return newPost;
-     } catch (error) {
-     console.log(error);
-     }
-}   
+       const newPost = await post.create({ caption, image,user });
+       // const newPost = new Post({ caption, image, user });
+       // await newPost.save();
+       return newPost;
+   } catch(error) {
+      console.error("Error in createPostRepository:", error);
+      throw new Error("Database error: Unable to create post");
+
+   }
+}
+
 
 export const findAllPosts = async (offset,limit) =>{ 
    try {
-    const posts = await post.find().sort({createdAt:-1}).skip(offset).limit(limit)
+    const posts = await post.find().sort({createdAt:-1}).skip(offset)
+.limit(limit).populate('user', 'username email _id');
     return posts;
    } catch (error) {
     console.log(error);

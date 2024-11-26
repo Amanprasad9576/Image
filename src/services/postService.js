@@ -1,11 +1,18 @@
-import { countAllPosts, createPostRepository, deletePostById, updatePostById } from "../repositories/postRepository.js";
+import { countAllPosts, createPost, deletePostById, updatePostById } from "../repositories/postRepository.js";
 import { findAllPosts } from "../repositories/postRepository.js";
 
 export const createPostService = async (createPostObejct) => {
     const caption = createPostObejct.caption?.trim();
     const image = createPostObejct.image;
+    const user = createPostObejct.user; 
 
-    const post = await createPostRepository(caption, image);
+
+    
+    if (!caption || !image ) {
+        throw new Error("Invalid input: caption, image, and user are required");
+    }
+
+    const post = await createPost(caption,image,user);
 
     return post;
 }

@@ -24,8 +24,9 @@ export const isAuthenticated = async (req, res, next) => {
                 message: "User not found"
             });
         }
-
+        
         req.user = response;
+
 
         next();
     } catch (error) {

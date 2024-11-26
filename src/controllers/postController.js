@@ -2,9 +2,28 @@ import { createPostService, deletePostService, getAllPostService, updatePostServ
 
 export async function createPost(req,res) {
     try {
+        console.log("req.user:", req.user);
+
+        const userDetails = req.user;
+        console.log("User Details:", userDetails);
+       
+        console.log("req.user._id",req.user._id);
+        userDetails._id = req.user._id;
+        console.log("userDetails._id:", userDetails._id);
+
+        
+        if (!userDetails) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: User details are missing",
+            });
+        }
+
+        
         // Logging the request body and file location
+        // Use req.file to access the uploaded file
         console.log("Request Body:", req.body);
-        console.log("File Location:", req.file?.location);  // Use req.file to access the uploaded file
+        console.log("File Location:", req.file?.location);
 
         // Call the service function to create the post
         if(!req.file || !req.file.location){
@@ -15,14 +34,17 @@ export async function createPost(req,res) {
         }
         const post = await createPostService({
             caption: req.body.caption,
-            image: req.file.location  // Get the image location from S3
+            image: req.file.location, // Assuming the file's URL is in `location`
+            user:userDetails._id
         });
+
 
         // Respond after the post is created
         return res.status(201).json({
             success: true,
             message: "Post created successfully",
-            data: post
+            userId: req.user._id, 
+            data:post
         });
     } catch (error) {
         // Error handling
