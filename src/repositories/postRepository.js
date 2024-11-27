@@ -5,6 +5,7 @@ export const createPost = async (caption, image, user) => {
        const newPost = await post.create({ caption, image,user });
        // const newPost = new Post({ caption, image, user });
        // await newPost.save();
+       console.log("Post in Repository",newPost);
        return newPost;
    } catch(error) {
       console.error("Error in createPostRepository:", error);

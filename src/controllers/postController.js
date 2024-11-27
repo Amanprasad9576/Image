@@ -1,61 +1,58 @@
 import { createPostService, deletePostService, getAllPostService, updatePostService } from "../services/postService.js";
 
-export async function createPost(req,res) {
+export async function createPost(req, res) {
     try {
-        console.log("req.user:", req.user);
-
-        const userDetails = req.user;
-        console.log("User Details:", userDetails);
-       
-        console.log("req.user._id",req.user._id);
-        userDetails._id = req.user._id;
-        console.log("userDetails._id:", userDetails._id);
-
-        
-        if (!userDetails) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized: User details are missing",
-            });
-        }
-
-        
-        // Logging the request body and file location
-        // Use req.file to access the uploaded file
-        console.log("Request Body:", req.body);
-        console.log("File Location:", req.file?.location);
-
-        // Call the service function to create the post
-        if(!req.file || !req.file.location){
-            return res.status(400).json({
-                success:false,
-                message:"Imgae is required"
-            })
-        }
-        const post = await createPostService({
-            caption: req.body.caption,
-            image: req.file.location, // Assuming the file's URL is in `location`
-            user:userDetails._id
+      console.log("req.user:", req.user);
+  
+      const userDetails = req.user;
+      console.log("User Details:", userDetails);
+  
+      console.log("req.user._id", req.user.id);
+      userDetails.id = req.user.id;
+  
+      console.log("userDetails._id:", userDetails.id);
+  
+      if (!userDetails) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized: User details are missing",
         });
-
-
-        // Respond after the post is created
-        return res.status(201).json({
-            success: true,
-            message: "Post created successfully",
-            userId: req.user._id, 
-            data:post
+      }
+  
+      // Logging the request body and file location
+      // Use req.file to access the uploaded file
+      console.log("Request Body:", req.body);
+      console.log("File Location:", req.file?.location);
+  
+      // Call the service function to create the post
+      if (!req.file || !req.file.location) {
+        return res.status(400).json({
+          success: false,
+          message: "Imgae is required",
         });
+      }
+      const post = await createPostService({
+        caption: req.body.caption,
+        image: req.file.location, // Assuming the file's URL is in ⁠ location ⁠
+        user: userDetails.id,
+      });
+      return res.status(201).json({
+        success: true,
+        message: "Post created successfully",
+        userId: req.user.id,
+        data: post,
+      });
     } catch (error) {
-        // Error handling
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: "Error creating post",
-            error: error.message
-        });
+      // Error handling
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Error creating post",
+        error: error.message,
+      });
     }
-}
+  }
+  
 
 export async function getAllposts(req,res){
     

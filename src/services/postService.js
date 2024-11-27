@@ -13,7 +13,7 @@ export const createPostService = async (createPostObejct) => {
     }
 
     const post = await createPost(caption,image,user);
-
+    console.log("user Service",user);
     return post;
 }
 export const getAllPostService = async (offset,limit) =>{
