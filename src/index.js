@@ -29,3 +29,6 @@ app.listen(PORT, () => {
 });
 
 
+// first fetch the user id from database 
+// is the same user create the post also want to delete it 
+// matching the post of userid and userid is same or not 

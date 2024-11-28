@@ -75,29 +75,43 @@ export async function getAllposts(req,res){
        }) 
     }
 }
-export async function deletePost(req,res){
+export async function deletePost(req, res) {
     try {
         const postId = req.params.id;
-        const response = await deletePostService(postId);
-        if(!response){
+        const userId = req.user.id;
+
+       // const response = await deletePostService(postId, req.user._id);
+       //  console.log("user in controller",req.user._id);
+
+       console.log("Request to delete post:", postId, "by user:", userId);
+        const response = await deletePostService(postId, userId);
+
+        if(!response) {
             return res.status(404).json({
-                success:false,
-                message:"Post not found",
+                success: false,
+                message: "Post not found"
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Post deleted successfully",
+            data: response
+        })
+    } catch(error) {
+        console.log(error);
+        if(error.status) {
+            return res.status(error.status).json({
+                success: false,
+                message: error.message
             })
         }
-         return res.status(200).json({
-            success: true,
-            message:"Post deleted successfully",
-            data:response
-         })
-    } catch (error) {
-        console.log(error);
         return res.status(500).json({
-            success:false,
-            message :"Internal server error"
-        })
+            success: false,
+            message: "Internal Server Error"
+        });
     }
 }
+ 
 export async function updatePost(req, res) {
     try {
         console.log("req file", req.file);
