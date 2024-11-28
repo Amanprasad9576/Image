@@ -78,14 +78,14 @@ export async function getAllposts(req,res){
 export async function deletePost(req, res) {
     try {
         const postId = req.params.id;
-        const userId = req.user.id;
+        const userId = req.user._id;
 
        // const response = await deletePostService(postId, req.user._id);
        //  console.log("user in controller",req.user._id);
 
        console.log("Request to delete post:", postId, "by user:", userId);
-        const response = await deletePostService(postId, userId);
-
+        const response = await deletePostService(postId,userId);
+         console.log("Respone",response);
         if(!response) {
             return res.status(404).json({
                 success: false,

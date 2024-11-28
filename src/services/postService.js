@@ -32,12 +32,13 @@ export const deletePostService = async (id,user)=>{
    // call the responsitory function
    console.log("User attempting to delete:", user);
     const post = await findPostById(id);
-     if(post.user!= user){
+        if(post.user!= user){
         throw{
             status:401,
             message:"Unauthorised"
         }
      }
+        
     const response = await deletePostById(id);
     return response;
 }
