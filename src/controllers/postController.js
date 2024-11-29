@@ -78,7 +78,7 @@ export async function getAllposts(req,res){
 export async function deletePost(req, res) {
     try {
         const postId = req.params.id;
-        const userId = req.user._id;
+        const userId = req.user.id;
 
        // const response = await deletePostService(postId, req.user._id);
        //  console.log("user in controller",req.user._id);
