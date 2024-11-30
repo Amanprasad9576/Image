@@ -6,6 +6,8 @@ import { isAuthenticated } from './middlewares/authMiddleware.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import  { options } from './utils/swaggerOption.js';
+import ip  from 'ip';
+
 
 const PORT = 3000; // port number
 
@@ -23,7 +25,8 @@ app.get('/ping',  (req, res) => {
     console.log(req.query);
     console.log(req.body);
     console.log(req.user);
-    return res.json({ message: 'pong' });
+    const ipaddr =ip.address();
+    return res.json({ message: 'pong' +ipaddr});
 });
 
 const swaggerDocs = swaggerJSDoc(options);
