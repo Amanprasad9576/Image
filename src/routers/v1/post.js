@@ -6,6 +6,7 @@ import { validate } from '../../validators/zodValidation.js';
 import { zodPostSchema } from '../../validators/zodPostSchema.js';
 import { isAdmin, isAuthenticated } from '../../middlewares/authMiddleware.js';
 
+
 const router = express.Router(); // Router object to modularize the routes
 
 
@@ -27,4 +28,10 @@ router.delete('/:id',isAuthenticated,deletePost);
 
 router.put('/:id',isAuthenticated,isAdmin,s3uploader.single('image'),updatePost);
 
+
 export default router;
+
+
+
+
+//http:localhost:3000/api/v1/post/comment

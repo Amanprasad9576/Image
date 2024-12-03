@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import  { options } from './utils/swaggerOption.js';
 import ip  from 'ip';
+import { rateLimit } from 'express-rate-limit'
 
 
 const PORT = 3000; // port number
@@ -32,6 +33,15 @@ app.get('/ping',  (req, res) => {
 const swaggerDocs = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+
+const limiter = rateLimit({
+	windowMs: 0.5 * 60 * 1000, // 30 sec
+	limit: 5, // Limit each IP to 5 requests per `window` 
+	
+})
+
+// Apply the rate limiting middleware to all requests.
+app.use(limiter)
 
 
 app.listen(PORT, () => {
